@@ -8,5 +8,17 @@
     "start": "node server.js"
   },
   "author": "paul jacks",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "websockets": "^0.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git push --set-upstream origin master"
+  },
+  "keywords": [
+    "websockets",
+    "drawing"
+  ]
 }
