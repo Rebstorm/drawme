@@ -4,3 +4,10 @@ div#maindiv {
     width: 100%;
     min-height: 40em;
 }
+
+canvas#maincanvas {
+    width: 500px;
+    border: black solid 1px;
+    position: relative;
+    right: 0;
+}

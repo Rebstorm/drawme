@@ -10,7 +10,7 @@
   "author": "paul jacks",
   "license": "MIT",
   "dependencies": {
-    "websockets": "^0.2.0"
+    "websocket": "^1.0.23"
   },
   "devDependencies": {},
   "repository": {

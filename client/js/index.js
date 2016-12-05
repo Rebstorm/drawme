@@ -6,7 +6,7 @@ var ClientFunctions = function(){
 
     function init(){
         ConnectionHelper.connect();
-        
+        CanvasHelper.init();
     }
 
 
