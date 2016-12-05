@@ -27,19 +27,21 @@ function handleUTF8(data, user){
 
 function handleDrawEvent(data, user){
     for(var i = 0; i < userList.length; i++){
-
+        
         if(userList.guid == data.guid)
             continue;
         else
-            user.sendUTF(data);
-
+            userList[i].userData.sendUTF(JSON.stringify(data));
+         
     }
+
+    
 
 }
 
 function handleNewUser(data, user){
-    var newUser = { guid: data.guid };
-
+    var newUser = { guid: data.guid, userData: user };
+    console.log(newUser.guid);
     for(var i = 0; i < userList.length; i++){
         if(userList[i].guid == data.guid){
             userList[i] = newUser;

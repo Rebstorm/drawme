@@ -63,6 +63,13 @@ var CanvasHelper = function(){
         ConnectionHelper.send(data);
     }
 
+    function addPaintRemote(x, y, dragging){
+        clickX.push(x);
+        clickY.push(y);
+        clickDrag.push(dragging);
+        redraw();
+    }
+
     function redraw(){
       context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
 
@@ -92,5 +99,6 @@ var CanvasHelper = function(){
         init : init,
         clearCanvas : clearCanvas,
         getCanvas: getCanvas,
+        addPaintRemote: addPaintRemote,
     }
 }();

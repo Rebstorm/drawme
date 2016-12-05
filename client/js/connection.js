@@ -16,19 +16,25 @@ var ConnectionHelper = function(){
 
     function onopen(e){
 
-        var uguid = guid();
-        guid = uguid;
+        var uguid = localStorage.getItem("guid");
+
+        if(uguid == undefined){
+            localStorage.setItem("guid", guid());
+            uguid = localStorage.getItem("guid");
+        }
+            
 
         var msg = {
             type: "greeting",
             data: "1",
-            guid: guid,
+            guid: getGUUID(),
         }
         connection.send(JSON.stringify(msg));
     }
 
     function onmessage(e){
-        console.log(e);
+        var json = JSON.parse(e.data);
+        CanvasHelper.addPaintRemote(json.x, json.y, json.dragging);
     }
 
     function onclose(e){
@@ -45,9 +51,21 @@ var ConnectionHelper = function(){
             
     }
 
+
+    function getGUUID(){
+        var uguid = localStorage.getItem("guid");
+
+        if(uguid == undefined){
+            localStorage.setItem("guid", guid());
+            uguid = localStorage.getItem("guid");
+        }
+
+        return uguid;
+    }
+
     function send(data){
         if(typeof data == "object"){
-            data.guid = guid;
+            data.guid = getGUUID();
             data = JSON.stringify(data);
         }
 
