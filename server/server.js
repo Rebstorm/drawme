@@ -1,22 +1,23 @@
  var WebSocketServer = require("websocket").server;
  var http = require('http');
+ var MessageHandler = require("./MessageHandler.js");
 
  var drawServer;
  var PORT = 6001;
 
- var server = http.createServer(function(request, response){
+ var httpServer = http.createServer(function(request, response){
  	console.log((new Date()) + ' Received request for ' + + request.url);
     response.writeHead(404);
     response.end();
  });
 
-server.listen(PORT, function() {
+httpServer.listen(PORT, function() {
     console.log((new Date()) + ' Server is listening on port:' + PORT);
 });
 
 
 drawServer = new WebSocketServer({
-    httpServer: server,
+    httpServer: httpServer,
     // You should not use autoAcceptConnections for production 
     // applications, as it defeats all standard cross-origin protection 
     // facilities built into the protocol and the browser.  You should 
@@ -25,12 +26,10 @@ drawServer = new WebSocketServer({
     autoAcceptConnections: false
 });
 
-
 function originIsAllowed(origin) {
   // put logic here to detect whether the specified origin is allowed. 
   return true;
 }
-
 
 drawServer.on('request', function(request) {
     if (!originIsAllowed(request.origin)) {
@@ -40,16 +39,16 @@ drawServer.on('request', function(request) {
       return;
     }
     
-    var connection = request.accept('echo-protocol', request.origin);
+    var connection = request.accept('draw-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
+
+
     connection.on('message', function(message) {
+
+    	
         if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
-        }
-        else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
+            //connection.sendUTF(message.utf8Data);
+            MessageHandler.handleUTF8(message.utf8Data, connection);
         }
     });
     connection.on('close', function(reasonCode, description) {
