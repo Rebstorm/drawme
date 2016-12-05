@@ -59,6 +59,8 @@ var CanvasHelper = function(){
         clickX.push(x);
         clickY.push(y);
         clickDrag.push(dragging);
+        var data = { type: "draw", x: x, y: y, dragging: dragging ? "true" : "false"};
+        ConnectionHelper.send(data);
     }
 
     function redraw(){
