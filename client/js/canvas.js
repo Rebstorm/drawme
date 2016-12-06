@@ -3,10 +3,14 @@ var CanvasHelper = function(){
     var canvas; 
     var context;
 
-    var clickX = new Array();
-    var clickY = new Array();
-    var clickDrag = new Array();
+    var clickX = [];
+    var clickY = [];
+    var clickDrag = [];
     var isPainting;
+
+    var remoteClickX = [];
+    var remoteClickY = [];
+    var remoteClickDrag = [];
 
     function init(){
         canvas = document.getElementById("maincanvas");
@@ -36,12 +40,12 @@ var CanvasHelper = function(){
 
                 isPainting = true;
                 addPaint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-                redraw(false);
+                redraw();
             });
         can.addEventListener("mousemove", function(e){
               if(isPainting){
                 addPaint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-                redraw(false);
+                redraw();
               }
             });
 
@@ -64,14 +68,14 @@ var CanvasHelper = function(){
     }
 
     function addPaintRemote(x, y, dragging){
-        clickX.push(x);
-        clickY.push(y);
-        clickDrag.push(dragging);
-        redraw(true);
+        remoteClickX.push(x);
+        remoteClickY.push(y);
+        remoteClickDrag.push(dragging);
+        redrawRemote();
     }
 
-    function redraw(isRemote){
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+    function redraw(){
+      //context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
 
       context.strokeStyle = "#000";
       context.lineJoin = "round";
@@ -89,6 +93,28 @@ var CanvasHelper = function(){
          context.closePath();
          context.stroke();
       }
+    }
+
+    function redrawRemote(){
+      //context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+
+      context.strokeStyle = "#000";
+      context.lineJoin = "round";
+      context.lineWidth = 2;
+
+      for(var i=0; i < remoteClickX.length; i++) {		
+        context.beginPath();
+
+        if(remoteClickDrag[i] && i){
+          context.moveTo(remoteClickX[i-1], remoteClickY[i-1]);
+        }else{
+          context.moveTo(remoteClickX[i]-1, remoteClickY[i]);
+        }
+         context.lineTo(remoteClickX[i], remoteClickY[i]);
+         context.closePath();
+         context.stroke();
+      }
+
     }
 
     function clearCanvas(){
