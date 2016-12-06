@@ -102,10 +102,10 @@ var CanvasHelper = function(){
       context.lineJoin = "round";
       context.lineWidth = 2;
 
-      for(var i=0; i < remoteClickX.length; i++) {		
+      for(var i=remoteClickX.length; i > 0; i--) {		
         context.beginPath();
 
-        if(remoteClickDrag[i] && i){
+        if(!remoteClickDrag[i] && i){
           context.moveTo(remoteClickX[i-1], remoteClickY[i-1]);
         }else{
           context.moveTo(remoteClickX[i]-1, remoteClickY[i]);
