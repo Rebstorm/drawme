@@ -3,11 +3,14 @@ div#maindiv {
     background: gray;
     width: 100%;
     min-height: 40em;
+    text-align: center;
 }
 
 canvas#maincanvas {
-    width: 500px;
+    width: 700px;
+    height:  500px;
     border: black solid 1px;
     position: relative;
-    right: 0;
+    display: inline;
+    background:  white;
 }

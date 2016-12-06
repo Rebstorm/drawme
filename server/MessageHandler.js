@@ -26,17 +26,15 @@ function handleUTF8(data, user){
 
 
 function handleDrawEvent(data, user){
-    for(var i = 0; i < userList.length; i++){
-        
-        if(userList.guid == data.guid)
+
+   for(var i = 0; i < userList.length; i++){
+        if(userList[i].guid == data.guid){
             continue;
-        else
+            console.log("user found");
+        }else{
             userList[i].userData.sendUTF(JSON.stringify(data));
-         
+        }
     }
-
-    
-
 }
 
 function handleNewUser(data, user){

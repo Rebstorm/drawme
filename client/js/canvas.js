@@ -36,12 +36,12 @@ var CanvasHelper = function(){
 
                 isPainting = true;
                 addPaint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-                redraw();
+                redraw(false);
             });
         can.addEventListener("mousemove", function(e){
               if(isPainting){
                 addPaint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-                redraw();
+                redraw(false);
               }
             });
 
@@ -67,10 +67,10 @@ var CanvasHelper = function(){
         clickX.push(x);
         clickY.push(y);
         clickDrag.push(dragging);
-        redraw();
+        redraw(true);
     }
 
-    function redraw(){
+    function redraw(isRemote){
       context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
 
       context.strokeStyle = "#000";
@@ -79,11 +79,12 @@ var CanvasHelper = function(){
 
       for(var i=0; i < clickX.length; i++) {		
         context.beginPath();
+
         if(clickDrag[i] && i){
           context.moveTo(clickX[i-1], clickY[i-1]);
-         }else{
-           context.moveTo(clickX[i]-1, clickY[i]);
-         }
+        }else{
+          context.moveTo(clickX[i]-1, clickY[i]);
+        }
          context.lineTo(clickX[i], clickY[i]);
          context.closePath();
          context.stroke();

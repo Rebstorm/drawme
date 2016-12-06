@@ -22,7 +22,6 @@ var ConnectionHelper = function(){
             localStorage.setItem("guid", guid());
             uguid = localStorage.getItem("guid");
         }
-            
 
         var msg = {
             type: "greeting",
