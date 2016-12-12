@@ -1,6 +1,9 @@
  var WebSocketServer = require("websocket").server;
  var http = require('http');
  var MessageHandler = require("./MessageHandler.js");
+ var express = require('express');
+ var FileServer = express();
+ var path = require('path');
 
  var drawServer;
  var PORT = 6001;
@@ -11,9 +14,16 @@
     response.end();
  });
 
-httpServer.listen(PORT, function() {
+ httpServer.listen(PORT, function() {
     console.log((new Date()) + ' Server is listening on port:' + PORT);
-});
+ });
+
+ //__dirname == constant, == good for returning files.
+ FileServer.use(express.static(path.join(__dirname, 'htdocs'))); 
+ FileServer.listen(80, function(){
+    console.log('Listening on port 80');
+ });
+
 
 
 drawServer = new WebSocketServer({
